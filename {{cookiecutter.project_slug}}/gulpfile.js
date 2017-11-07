@@ -1,7 +1,5 @@
 var gulp = require('gulp'),
-  browserify = require('browserify'),
-  source = require('vinyl-source-stream'),
-  buffer = require('vinyl-buffer'),
+  bro = require('gulp-bro'),
   gutil = require('gulp-util'),
   sourcemaps = require('gulp-sourcemaps'),
   pjson = require('./package.json'),
@@ -31,24 +29,14 @@ var paths = pathsConfig('{{cookiecutter.project_slug}}');
 
 
 gulp.task('javascript', function () {
-  // set up the browserify instance on a task basis
-  var b = browserify({
-    entries: paths.jsx + '/app.jsx',
-    debug: true,
-    // defining transforms here will avoid crashing your stream
-    transform: [babelify]
-  });
-
-  return b.bundle()
-    .pipe(source('project.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-        // Add transformation tasks to the pipeline here.
-        .pipe(uglify())
-        .on('error', gutil.log)
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(paths.js));
+  gulp.src('./app/js/app.jsx')
+    .pipe(bro({
+        transform: [
+          babelify.configure({ presets: ['env', 'react'] })
+        ]
+    }))
+    .pipe(rename('project.js'))
+    .pipe(gulp.dest(paths.js))
 });
 
 
@@ -73,7 +61,7 @@ gulp.task('browserSync', function() {
 
 // Watch files for changes
 gulp.task('watch', function () {
-  gulp.watch(paths.js + '/project.js', ['javascript']).on("change", reload);
+  gulp.watch(paths.jsx + '/app.jsx', ['javascript']).on("change", reload);
   gulp.watch(paths.templates + '/**/*.html').on("change", reload);
 });
 
