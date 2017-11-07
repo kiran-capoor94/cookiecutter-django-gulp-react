@@ -54,7 +54,7 @@ gulp.task('javascript', function () {
 
 // Run django server
 gulp.task('runServer', function(cb) {
-  var cmd = spawn('python', ['manage.py', 'runserver', '0.0.0.0:8081'], {stdio: 'inherit'});
+  var cmd = spawn('python', ['manage.py', 'runserver', '0.0.0.0:8002'], {stdio: 'inherit'});
   cmd.on('close', function(code) {
     console.log('runServer exited with code ' + code);
     cb(code);
@@ -66,7 +66,7 @@ gulp.task('runServer', function(cb) {
 gulp.task('browserSync', function() {
     browserSync.init(
       [paths.css + "/*.css", paths.js + "*.js", paths.templates + '*.html'], {
-        proxy:  "localhost:8081"
+        proxy:  "localhost:8002"
     });
 });
 
