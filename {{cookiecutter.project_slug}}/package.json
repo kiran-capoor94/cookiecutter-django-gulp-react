@@ -14,7 +14,6 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^8.0.0",
     "browser-sync": "^2.18.13",
-    "browserify": "^14.5.0",
     "child-process": "^1.0.2",
     "gulp": "^3.9.1",
     "gulp-bro": "^1.0.2",
@@ -23,10 +22,7 @@
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
-    "reactify": "^1.1.1",
-    "run-sequence": "^2.2.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "run-sequence": "^2.2.0"
   },
   "dependencies": {
     "react": "^16.0.0",
