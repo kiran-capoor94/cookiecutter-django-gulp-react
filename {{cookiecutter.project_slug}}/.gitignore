@@ -1,0 +1,11 @@
+### Django ###
+*.pyc
+__pycache__/
+db.sqlite3
+{{cookiecutter.project_slug}}/media
+
+### OSX
+*.DS_Store
+
+### Node
+node_modules
