@@ -1,9 +1,10 @@
-{% raw %}<!DOCTYPE html>
+{% raw %}{% load static %}
+<!DOCTYPE html>
 <html lang='en'>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% endraw %}{{cookiecutter.project_name}}{% raw %}</title>
-    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="{% static '/css/main.css' %}" rel="stylesheet">
   </head>
   <body>
     {% block content %}
@@ -12,6 +13,6 @@
     <!-- React app enters here: -->
     <div id="app"></div>
   </body>
-  <script src="/static/js/project.js"></script>
+  <script src="{% static '/js/project.js' %}"></script>
 </html>
 {% endraw %}
