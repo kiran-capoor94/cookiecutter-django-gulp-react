@@ -1,16 +1,16 @@
-var gulp = require('gulp'),
-  bro = require('gulp-bro'),
-  gutil = require('gulp-util'),
-  sourcemaps = require('gulp-sourcemaps'),
-  pjson = require('./package.json'),
-  plumber = require('gulp-plumber'),
-  uglify = require('gulp-uglify'),
-  rename = require('gulp-rename'),
-  runSequence = require('run-sequence'),
-  browserSync = require('browser-sync').create(),
-  spawn = require('child_process').spawn,
-  babelify = require('babelify'),
-  reload = browserSync.reload;
+const gulp = require('gulp');
+const bro = require('gulp-bro');
+const pjson = require('./package.json');
+const plumber = require('gulp-plumber');
+const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
+const runSequence = require('run-sequence');
+const browserSync = require('browser-sync').create();
+const { spawn } = require('child_process');
+const sass = require('gulp-sass');
+const babelify = require('babelify');
+
+const { reload, stream } = browserSync;
 
 // Relative paths function
 var pathsConfig = function (appName) {
@@ -19,9 +19,10 @@ var pathsConfig = function (appName) {
   return {
     app: this.app,
     css: this.app + '/static/css',
-    sass: './app/sass',
+    scss: './app/scss',
     js: this.app + '/static/js',
-    jsx: './app/js'
+    jsx: './app/js',
+    templates: `${this.app}/templates`,
   }
 };
 
@@ -39,6 +40,13 @@ gulp.task('javascript', function () {
     .pipe(gulp.dest(paths.js))
 });
 
+
+// create a task that ensures the `javascript` task is complete before
+// reloading browsers
+gulp.task('js-watch', ['javascript'], (done) => {
+  reload();
+  done();
+});
 
 // Run django server
 gulp.task('runServer', function(cb) {
@@ -58,15 +66,24 @@ gulp.task('browserSync', function() {
     });
 });
 
+// Watch for sass changes
+gulp.task('scss', () => {
+  gulp.src(`${paths.scss}/*.scss`)
+    .pipe(sass())
+    .pipe(gulp.dest(paths.css))
+    .pipe(stream());
+});
+
 
 // Watch files for changes
-gulp.task('watch', function () {
-  gulp.watch(paths.jsx + '/app.jsx', ['javascript']).on("change", reload);
-  gulp.watch(paths.templates + '/**/*.html').on("change", reload);
+gulp.task('watch', () => {
+  gulp.watch(`${paths.jsx}/**/*.jsx`, ['js-watch']);
+  gulp.watch(`${paths.scss}/**/*.scss`, ['scss']);
+  gulp.watch(`${paths.templates}/**/*.html`).on('change', reload);
 });
 
 
 // Default task
 gulp.task('default', function() {
-  runSequence(['javascript'], ['runServer', 'browserSync', 'watch']);
+  runSequence(['javascript', 'scss'], ['runServer', 'browserSync', 'watch']);
 });
