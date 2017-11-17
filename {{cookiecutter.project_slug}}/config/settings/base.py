@@ -74,15 +74,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
+# DATABASE CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+# Uses django-environ to accept uri format
+# See: https://django-environ.readthedocs.io/en/latest/#supported-types
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(ROOT_DIR.path('db.sqlite3')),
-    }
+    'default': env.db(
+        'DATABASE_URL',
+        default='postgres:///{{cookiecutter.project_slug}}'),
 }
+DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 
 # Password validation
