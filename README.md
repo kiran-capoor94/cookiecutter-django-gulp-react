@@ -1,4 +1,4 @@
-# Cookiecutter Django Gulp react
+# Cookiecutter Django Gulp React
 
 Very much under construction.
 
