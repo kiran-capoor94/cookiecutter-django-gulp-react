@@ -1,5 +1,5 @@
 @import 'variables';
-
+{% if cookiecutter.use_bootstrap == 'y'%}@import "../../node_modules/bootstrap/scss/bootstrap";{% endif %}
 body {
   background: $background_color;
   color: $color;

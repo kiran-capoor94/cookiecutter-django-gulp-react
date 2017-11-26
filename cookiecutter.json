@@ -4,5 +4,6 @@
     "description": "",
     "author_name": "Bjorn Kristinsson",
     "email": "bjorn@bjornkri.com",
-    "version": "0.1.0"
+    "version": "0.1.0",
+    "use_bootstrap": "n"
 }

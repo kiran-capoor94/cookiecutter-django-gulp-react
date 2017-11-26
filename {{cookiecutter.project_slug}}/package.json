@@ -32,6 +32,12 @@
     "run-sequence": "^2.2.0"
   },
   "dependencies": {
+    "ajv": "^5.3.0",
+    {% if cookiecutter.use_bootstrap == 'y' %}
+    "bootstrap": "^4.0.0-beta.2",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.7",
+    {% endif %}
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   }
