@@ -36,6 +36,7 @@ gulp.task('javascript', () => {
       transform: [
         babelify.configure({ presets: ['env', 'react'] }),
       ],
+      extensions: ['.js', '.jsx'],
     }))
     .pipe(rename('project.js'))
     .pipe(gulp.dest(paths.js));
